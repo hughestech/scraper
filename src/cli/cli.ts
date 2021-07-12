@@ -302,7 +302,7 @@ export function invoke(argv: string[]) {
     invokeLogger(argObj);
   }
 
-  if (argObj.config) {
+  if (argObj.scrape) {
     invokeScraper(argObj);
   }
 }
