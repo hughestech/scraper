@@ -95,7 +95,6 @@ export default class ConcurrencyManager {
     },
   };
 
-  logger = getLogger('ConcurrencyManager');
 
   opts: ConcurrencyOptions;
   status: Status;
