@@ -273,6 +273,7 @@ export default class Scraper extends EventEmitter {
   async scrape(scrapeHash: string, concurrencyOpts?: Partial<ConcurrencyOptions>, runtimeOpts?: Partial<RuntimeOptions>):Promise<void>
   async scrape(scrapeConfig: Project|ScrapeConfig|string, concurrencyOpts?: Partial<ConcurrencyOptions>, runtimeOpts?: Partial<RuntimeOptions>):Promise<void> {
     try {
+      this.logger.info(`awaiting preScrape...`)
       await this.preScrape(concurrencyOpts, runtimeOpts);
 
       // when discover flag is set ignore scrapeConfig, retrieve first project containing unscraped resources
@@ -365,11 +366,13 @@ export default class Scraper extends EventEmitter {
   }
 
   async getResourceToScrape() {
+    this.logger.debug(`getting ResourceToScrap`);
     try {
       // check if scraper cpu and memory usage are within the defined limits
       this.metrics.check();
 
       const resource = await this.concurrency.getResourceToScrape(this.project);
+      this.logger.debug(`got resource: url is ${resource.url}`);
       // no more available resources to be scraped, project scraping complete
       if (!resource) {
         await this.postScrape();
@@ -424,6 +427,7 @@ export default class Scraper extends EventEmitter {
       // sequentially execute project plugins in the defined order
       for (pluginIdx = 0; pluginIdx < this.project.plugins.length; pluginIdx += 1) {
         // a plugin result represents additional data/content to be merged with the current resource
+        this.logger.debug(`pre-executing plugins. resource url is ${resource.url}`);
         const result = await this.executePlugin(resource, this.project.plugins[pluginIdx]);
         this.logger.debug(result || {}, 'Plugin result');
 
