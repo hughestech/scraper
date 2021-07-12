@@ -4,9 +4,11 @@ import Project from '../../storage/base/Project';
 import Resource from '../../storage/base/Resource';
 import { IDomClientConstructor, IDomNode } from '../../domclient/DomClient';
 import NativeClient from '../../domclient/NativeClient';
+import { getLogger } from '../logger/Logger';
 
 /** Scrapes html content based on CSS selectors. Runs in browser. */
 export default class ExtractHtmlContentPlugin extends Plugin {
+  logger = getLogger('ExtractHtmlContentPlugin');
   static get schema() {
     return {
       type: 'object',
@@ -65,9 +67,11 @@ export default class ExtractHtmlContentPlugin extends Plugin {
   }
 
   apply(project: Project, resource: Resource, DomClient?: IDomClientConstructor) {
+    this.logger.info('applying plubin');
     this.document = DomClient ? new DomClient(resource.data) : new NativeClient(document.querySelector('body'));
 
     const currentContent = this.extractContent();
+    this.logger.info(`content: ${currentContent}`);
     const content = this.diffAndMerge(currentContent);
     return { content };
   }
