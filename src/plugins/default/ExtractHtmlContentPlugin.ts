@@ -4,7 +4,7 @@ import Project from '../../storage/base/Project';
 import Resource from '../../storage/base/Resource';
 import { IDomClientConstructor, IDomNode } from '../../domclient/DomClient';
 import NativeClient from '../../domclient/NativeClient';
-import { getLogger } from '../Logger../logger/Logger';
+import { getLogger } from '../../logger/Logger';
 
 /** Scrapes html content based on CSS selectors. Runs in browser. */
 export default class ExtractHtmlContentPlugin extends Plugin {
