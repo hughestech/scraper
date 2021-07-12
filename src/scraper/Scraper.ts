@@ -372,7 +372,8 @@ export default class Scraper extends EventEmitter {
       this.metrics.check();
 
       const resource = await this.concurrency.getResourceToScrape(this.project);
-      this.logger.debug(`got resource: url is ${resource.url}`);
+      // resource has no url
+      // this.logger.debug(`got resource: url is ${resource.url}`);
       // no more available resources to be scraped, project scraping complete
       if (!resource) {
         await this.postScrape();

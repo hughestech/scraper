@@ -78,6 +78,7 @@ export type Status = {
  * Responsible for selecting resources to be scraped based on project, proxy, domain and session concurrency options.
  */
 export default class ConcurrencyManager {
+  logger = getLogger('ConcurrencyManager');
   /**
    * by default:
    * - scrape each hostname sequentially with a 3s delay
@@ -200,6 +201,7 @@ export default class ConcurrencyManager {
     }
 
     // domain thresholds don't allow it
+    this.logger.debug(`Do we have a url? ${resource.url}`)
     const { hostname } = new URL(resource.url);
     if (!this.conditionsMet(this.status.domain[hostname], this.opts.domain)) {
       // re-make resource eligible for scraping by reseting the scrapeInProgress flag
