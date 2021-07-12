@@ -175,7 +175,7 @@ export default class Scraper extends EventEmitter {
 
     if (this.browserClient && !this.browserClient.isLaunched) {
       await this.browserClient.launch();
-      this.logger.info('Browser launched');
+      this.logger.info(`Browser launched for ${this.browserClient.getUrl()}`);
     }
   }
 
