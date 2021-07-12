@@ -95,6 +95,7 @@ export default class Scraper extends EventEmitter {
     }
 
     if (client instanceof BrowserClient) {
+      this.logger.info(`client: ${client}`);
       this.browserClient = client;
     }
     else {
@@ -376,6 +377,7 @@ export default class Scraper extends EventEmitter {
         this.emit(ScrapeEvent.ProjectScraped, this.project);
       }
       else {
+        this.logger.info(`Resource to scrape: ${resource}`)
         this.emit(ScrapeEvent.ResourceSelected, this.project, resource);
         this.scrapeResource(resource);
       }
@@ -408,6 +410,7 @@ export default class Scraper extends EventEmitter {
    * @param resource - current scrape resource
    */
   async scrapeResource(resource: Resource) {
+    this.logger.info(`scrapeResource() - resource url: ${resource.url}`)
     // dynamic resource, a resource that was modified by a dynamic action: scroll, click, ..
     if (resource && resource.actions) {
       this.logger.info('Started re-scraping a dynamic resource from project %s, url %s, dynamic action %s', this.project.name, resource.url, resource.actions);
